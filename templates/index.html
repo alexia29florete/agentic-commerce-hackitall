@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Căutare produse</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Căutare produse locale</h1>
+            <h3 id="location">Detectez locația…</h3>
+        </header>
+
+        <div class="search-bar">
+            <input id="searchInput" placeholder="Ce produs cauți?" />
+            <button id="searchBtn">Caută</button>
+        </div>
+
+        <h3>Rezultate:</h3>
+        <div id="results" class="products-grid"></div>
+
+        <button id="newSearchBtn" class="btn-red">Nu îți plac produsele? Caută altele</button>
+
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

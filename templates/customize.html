@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalizează produsul</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 { color: #333; }
+
+        /* CHAT BULE */
+        #chatLog {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 350px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            line-height: 1.3;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .user {
+            align-self: flex-end;
+            background-color: #4CAF50;
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+
+        .ai {
+            align-self: flex-start;
+            background-color: #e0e0e0;
+            color: #333;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-buttons {
+            margin-top: 5px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-buttons button {
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .chat-buttons #acceptBtn { background-color: #4CAF50; color: white; }
+        .chat-buttons #acceptBtn:hover { background-color: #45a049; }
+
+        .chat-buttons #rejectBtn { background-color: #f44336; color: white; }
+        .chat-buttons #rejectBtn:hover { background-color: #d32f2f; }
+
+        #chatInput {
+            width: 70%;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        #sendChat {
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        #sendChat:hover { background-color: #45a049; }
+    </style>
+</head>
+<body data-index="{{ index }}">
+
+<div class="container">
+    <h2>Personalizează produsul</h2>
+
+    <!-- Produs inițial -->
+    <div id="originalProduct" class="product-card"></div>
+
+    <!-- Chat -->
+    <div id="chatLog"></div>
+    <div style="display:flex; gap:5px; margin-top:10px;">
+        <input id="chatInput" placeholder="Spune ce vrei în plus..." />
+        <button id="sendChat">Trimite</button>
+    </div>
+</div>
+
+<script>
+    const index = parseInt(document.body.dataset.index);
+    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const currentProduct = products[index];
+
+    const originalProductDiv = document.getElementById("originalProduct");
+    const chatLog = document.getElementById("chatLog");
+    const chatInput = document.getElementById("chatInput");
+
+    // Produs inițial
+    originalProductDiv.innerHTML = `<b>${currentProduct.name}</b> - ${currentProduct.price}`;
+
+    function addMessage(text, sender, withButtons=false) {
+        const div = document.createElement("div");
+        div.classList.add("message", sender);
+        div.innerHTML = text;
+
+        // Dacă vrem butoanele DA/NU
+        if (withButtons) {
+            const btnContainer = document.createElement("div");
+            btnContainer.classList.add("chat-buttons");
+
+            const acceptBtn = document.createElement("button");
+            acceptBtn.id = "acceptBtn";
+            acceptBtn.innerText = "DA";
+            acceptBtn.onclick = () => {
+                alert("Produs acceptat! Mergi la checkout.");
+                window.location.href = "/checkout";
+            };
+
+            const rejectBtn = document.createElement("button");
+            rejectBtn.id = "rejectBtn";
+            rejectBtn.innerText = "NU";
+            rejectBtn.onclick = () => {
+                window.location.href = "/";
+            };
+
+            btnContainer.appendChild(acceptBtn);
+            btnContainer.appendChild(rejectBtn);
+            div.appendChild(btnContainer);
+        }
+
+        chatLog.appendChild(div);
+        chatLog.scrollTop = chatLog.scrollHeight; // scroll automat
+    }
+
+    document.getElementById("sendChat").onclick = () => {
+        const userText = chatInput.value.trim();
+        if (!userText) return;
+
+        addMessage(userText, "user");
+        chatInput.value = "";
+
+        // MOCK AI: generăm produs
+        setTimeout(() => {
+            const generatedProduct = {
+                name: `${currentProduct.name} + ${userText}`,
+                price: (parseInt(currentProduct.price) + 10) + " EUR"
+            };
+            addMessage(`Produs generat: ${generatedProduct.name} - ${generatedProduct.price}`, "ai", true);
+        }, 500);
+    };
+</script>
+
+</body>
+</html>

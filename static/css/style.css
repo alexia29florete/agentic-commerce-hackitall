@@ -1,0 +1,122 @@
+/* ---------- GENERAL ---------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ---------- HEADER ---------- */
+header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #333;
+}
+
+header h3 {
+    margin: 5px 0 20px 0;
+    color: #555;
+}
+
+/* ---------- SEARCH BAR ---------- */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #45a049;
+}
+
+/* ---------- PRODUSE GRID ---------- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.product:hover {
+    transform: translateY(-3px);
+}
+
+.product b {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.product .price {
+    font-size: 16px;
+    color: #666;
+}
+
+/* ---------- STELUTA ---------- */
+.star {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+    color: #f5c518;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.star:hover {
+    transform: scale(1.3);
+}
+
+/* ---------- BUTON CAUTĂ ALTELE ---------- */
+.btn-red {
+    margin-top: 30px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-red:hover {
+    background-color: #d32f2f;
+}
