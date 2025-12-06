@@ -41,15 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ---------- SEARCH PRODUSE RAPID ----------
-    document.getElementById("searchBtn").onclick = () => {
-        const query = document.getElementById("searchInput").value;
-        if(!query) return;
+    document.getElementById("searchBtn").onclick = async () => {
+    const query = document.getElementById("searchInput").value;
+    if(!query) return;
 
-        const products = [
-            {name: `${query} Local 1`, price: "20 EUR"},
-            {name: `${query} Local 2`, price: "25 EUR"},
-            {name: `${query} Premium`, price: "45 EUR"}
-        ];
+    try {
+        const resp = await fetch("/search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query })
+        });
+        const products = await resp.json();
 
         localStorage.setItem("products", JSON.stringify(products));
 
@@ -59,7 +61,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <a href="/customize/${i}" class="star" style="cursor:pointer;">💬</a>
             </div>
         `).join("");
-    };
+    } catch(e) {
+        console.error("Eroare la cautare:", e);
+    }
+};
+
 
     // ---------- BUTON „Caută altele” ----------
     document.getElementById("newSearchBtn").onclick = () => {
