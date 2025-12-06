@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Commerce - Produse Locale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .product-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .product-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .product-icon {
+            font-size: 50px;
+            margin-right: 20px;
+        }
+        
+        .product-info h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .product-info .badge {
+            display: inline-block;
+            background: #4bb543;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .product-features {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+        
+        .product-features li {
+            color: #555;
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .product-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4bb543;
+            font-weight: bold;
+        }
+        
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .price {
+            font-size: 32px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .price-label {
+            font-size: 14px;
+            color: #666;
+            display: block;
+        }
+        
+        #checkout-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            width: 100%;
+        }
+        
+        #checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        #checkout-btn:active {
+            transform: translateY(0);
+        }
+        
+        #checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+            color: #4bb543;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🏪</div>
+            <h1>Agentic Commerce</h1>
+            <p class="subtitle">Descoperă produsele locale din România</p>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-icon">🛍️</div>
+                <div class="product-info">
+                    <h2>Produs Local Premium</h2>
+                    <span class="badge">🇷🇴 Made in Romania</span>
+                </div>
+            </div>
+            
+            <p class="product-description">
+                Sprijină micii antreprenori locali din România! Acest produs este realizat manual, 
+                cu atenție la detalii și pasiune pentru calitate.
+            </p>
+            
+            <ul class="product-features">
+                <li>100% produse locale românești</li>
+                <li>Sprijină business-uri mici din comunitate</li>
+                <li>Livrare rapidă în 2-3 zile</li>
+                <li>Plată securizată prin Stripe</li>
+            </ul>
+            
+            <div class="price-section">
+                <div>
+                    <span class="price-label">Preț:</span>
+                    <span class="price">50 RON</span>
+                </div>
+            </div>
+        </div>
+        
+        <button id="checkout-btn">
+            🔒 Plătește Acum
+        </button>
+        
+        <div class="secure-badge">
+            <span>🔐</span>
+            <span>Plată 100% securizată prin Stripe</span>
+        </div>
+        
+        <div class="loading" id="loading">
+            ⏳ Se pregătește pagina de plată...
+        </div>
+        
+        <div class="footer">
+            <p>💳 Acceptăm toate cardurile majore | 🚚 Livrare gratuită peste 100 RON</p>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById("checkout-btn");
+        const loading = document.getElementById("loading");
+        
+        btn.addEventListener("click", async () => {
+            // Disabled button și arată loading
+            btn.disabled = true;
+            btn.textContent = "Se procesează...";
+            loading.classList.add("show");
+            
+            try {
+                // Trimitem cerere către backend-ul FastAPI
+                let response = await fetch("http://127.0.0.1:8000/create-checkout-session", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({})
+                });
+
+                let data = await response.json();
+
+                if (data.checkout_url) {
+                    // Redirecționare către Stripe (pagina de plată)
+                    window.location.href = data.checkout_url;
+                } else {
+                    throw new Error("Nu s-a primit URL-ul de checkout");
+                }
+            } catch (error) {
+                console.error("Eroare:", error);
+                alert("Eroare la inițierea plății. Verifică dacă serverul FastAPI rulează pe portul 8000.");
+                btn.disabled = false;
+                btn.textContent = "🔒 Plătește Acum";
+                loading.classList.remove("show");
+            }
+        });
+    </script>
+</body>
+</html>
