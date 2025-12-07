@@ -288,7 +288,7 @@ def create_checkout_session():
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
             mode="payment",
-            success_url="http://127.0.0.1:5000/success",
+            success_url=f"http://127.0.0.1:5000/success?amount={price_ron}&name={name}",
             cancel_url="http://127.0.0.1:5000/cancel",
             line_items=[
                 {
@@ -324,3 +324,4 @@ def cancel():
 # ----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
+    
