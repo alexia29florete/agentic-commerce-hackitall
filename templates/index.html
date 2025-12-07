@@ -3,29 +3,53 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Căutare produse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Commerce - Produse Locale</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-
     <div class="container">
-
         <header>
-            <h1>Căutare produse locale</h1>
-            <h3 id="location">Detectez locația…</h3>
+            <div class="logo">🏪</div>
+            <h1>Agentic Commerce</h1>
+            <p class="subtitle">Descoperă produsele locale din România</p>
+            <div class="location-badge">
+                <span id="location">📍 Detectez locația…</span>
+            </div>
         </header>
 
-        <div class="search-bar">
-            <input id="searchInput" placeholder="Ce produs cauți?" />
-            <button id="searchBtn">Caută</button>
+        <div class="search-section">
+            <h2>Ce cauți astăzi?</h2>
+            <div class="search-bar">
+                <input id="searchInput" placeholder='Ex: "tricou bumbac portocaliu din București" sau "pâine organică"' />
+                <button id="searchBtn">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Caută</span>
+                </button>
+            </div>
+            <div class="search-examples">
+                <span class="example-label">Exemple:</span>
+                <span class="example-tag">tricou 100% bumbac portocaliu</span>
+                <span class="example-tag">pâine organică locală</span>
+                <span class="example-tag">produse artizanale</span>
+            </div>
         </div>
 
-        <h3>Rezultate:</h3>
-        <div id="results" class="products-grid"></div>
+        <div class="results-section">
+            <h3 id="results-title" style="display: none;">
+                <span class="results-icon">✨</span> Produse găsite
+            </h3>
+            <div id="results" class="products-grid"></div>
+        </div>
 
-        <button id="newSearchBtn" class="btn-red">Nu îți plac produsele? Caută altele</button>
+        <button id="newSearchBtn" class="btn-secondary" style="display: none;">
+            🔄 Caută alte produse
+        </button>
 
+        <footer class="app-footer">
+            <p>💚 Sprijinim micii antreprenori din România | 🇷🇴 Made with love</p>
+        </footer>
     </div>
 
     <script src="/static/js/main.js"></script>
