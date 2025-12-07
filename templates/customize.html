@@ -94,6 +94,16 @@
         }
 
         #sendChat:hover { background-color: #45a049; }
+
+        .product-info, .company-info {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #fdfdfd;
+        }
+
+        .product-info b, .company-info b { color: #333; }
     </style>
 </head>
 <body data-index="{{ index }}">
@@ -102,7 +112,29 @@
     <h2>Personalizează produsul</h2>
 
     <!-- Produs inițial -->
-    <div id="originalProduct" class="product-card"></div>
+    <div id="originalProduct" class="product-info"></div>
+
+    <!-- Descriere -->
+    <div id="productDescription" class="product-info"></div>
+
+
+    <!-- Cumparare instanta -->
+    <div style="margin-bottom: 15px;">
+        <button id="buyDirectBtn"
+                style="
+                    padding: 12px 18px;
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    font-size: 16px;">
+            Cumpără acest produs
+        </button>
+    </div>
+
+    <!-- Info companie -->
+    <div id="companyInfo" class="company-info"></div>
 
     <!-- Chat -->
     <div id="chatLog"></div>
@@ -118,18 +150,43 @@
     const currentProduct = products[index];
 
     const originalProductDiv = document.getElementById("originalProduct");
+    const companyInfoDiv = document.getElementById("companyInfo");
+    const descriptionDiv = document.getElementById("productDescription");
     const chatLog = document.getElementById("chatLog");
     const chatInput = document.getElementById("chatInput");
 
-    // Produs inițial
-    originalProductDiv.innerHTML = `<b>${currentProduct.name}</b> - ${currentProduct.price}`;
+    if (!currentProduct) {
+        originalProductDiv.innerHTML = "Produsul nu a fost găsit!";
+        descriptionDiv.innerHTML = "";
+    } else {
+        // Produs
+        originalProductDiv.innerHTML = `
+            <p><b>Nume:</b> ${currentProduct.name}</p>
+            <p><b>Preț:</b> ${currentProduct.price}</p>
+            ${currentProduct.materials ? `<p><b>Materiale:</b> ${currentProduct.materials.join(", ")}</p>` : ""}
+            ${currentProduct.colors ? `<p><b>Culori:</b> ${currentProduct.colors.join(", ")}</p>` : ""}
+        `;
+
+        // Descriere
+        descriptionDiv.innerHTML = currentProduct.description
+            ? `<p><b>Descriere:</b> ${currentProduct.description}</p>`
+            : `<p><b>Descriere:</b> N/A</p>`;
+
+        // Companie
+        companyInfoDiv.innerHTML = `
+            <h3>Info companie</h3>
+            <p><b>CUI:</b> ${currentProduct.cui}</p>
+            <p><b>Angajați:</b> ${currentProduct.employees}</p>
+            <p><b>Rating:</b> ${currentProduct.rating || 'N/A'}/5</p>
+            <p><b>Website:</b> <a href="${currentProduct.url}" target="_blank">${currentProduct.url}</a></p>
+        `;
+    }
 
     function addMessage(text, sender, withButtons=false) {
         const div = document.createElement("div");
         div.classList.add("message", sender);
         div.innerHTML = text;
 
-        // Dacă vrem butoanele DA/NU
         if (withButtons) {
             const btnContainer = document.createElement("div");
             btnContainer.classList.add("chat-buttons");
@@ -137,17 +194,44 @@
             const acceptBtn = document.createElement("button");
             acceptBtn.id = "acceptBtn";
             acceptBtn.innerText = "DA";
-            acceptBtn.onclick = () => {
-                alert("Produs acceptat! Mergi la checkout.");
-                window.location.href = "/checkout";
+
+            acceptBtn.onclick = async () => {
+                const numericPrice = parseFloat(currentProduct.price.replace(/[^\d.]/g, ''));
+                const payload = {
+                    name: currentProduct.name,
+                    price: numericPrice,
+                    quantity: 1,
+                    metadata: {
+                        shop_name: currentProduct.name,
+                        cui: currentProduct.cui,
+                        employees: currentProduct.employees
+                    }
+                };
+
+                acceptBtn.disabled = true;
+                acceptBtn.innerText = "Se pregătește plata...";
+
+                try {
+                    const response = await fetch("/create-checkout-session", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await response.json();
+                    if (data.checkout_url) window.location.href = data.checkout_url;
+                    else throw new Error(data.error || "Stripe nu a returnat URL-ul.");
+                } catch (err) {
+                    console.error("Checkout error:", err);
+                    alert("Eroare la inițierea plății.");
+                    acceptBtn.disabled = false;
+                    acceptBtn.innerText = "DA";
+                }
             };
 
             const rejectBtn = document.createElement("button");
             rejectBtn.id = "rejectBtn";
             rejectBtn.innerText = "NU";
-            rejectBtn.onclick = () => {
-                window.location.href = "/";
-            };
+            rejectBtn.onclick = () => window.location.href = "/";
 
             btnContainer.appendChild(acceptBtn);
             btnContainer.appendChild(rejectBtn);
@@ -155,9 +239,47 @@
         }
 
         chatLog.appendChild(div);
-        chatLog.scrollTop = chatLog.scrollHeight; // scroll automat
+        chatLog.scrollTop = chatLog.scrollHeight;
     }
 
+    // Buy direct button
+    document.getElementById("buyDirectBtn").onclick = async () => {
+        if (!currentProduct) return;
+
+        const numericPrice = parseFloat(currentProduct.price.replace(/[^\d.]/g, ''));
+        const payload = {
+            name: currentProduct.name,
+            price: numericPrice,
+            quantity: 1,
+            metadata: {
+                shop_name: currentProduct.name,
+                cui: currentProduct.cui,
+                employees: currentProduct.employees
+            }
+        };
+
+        const btn = document.getElementById("buyDirectBtn");
+        btn.disabled = true;
+        btn.innerText = "Se pregătește plata...";
+
+        try {
+            const response = await fetch("/create-checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (data.checkout_url) window.location.href = data.checkout_url;
+            else throw new Error(data.error || "Stripe nu a returnat URL-ul.");
+        } catch (err) {
+            console.error("Checkout error:", err);
+            alert("Eroare la inițierea plății.");
+            btn.disabled = false;
+            btn.innerText = "Cumpără acest produs";
+        }
+    };
+
+    // Chat input handler
     document.getElementById("sendChat").onclick = () => {
         const userText = chatInput.value.trim();
         if (!userText) return;
@@ -165,16 +287,19 @@
         addMessage(userText, "user");
         chatInput.value = "";
 
-        // MOCK AI: generăm produs
+        // MOCK AI response
         setTimeout(() => {
             const generatedProduct = {
                 name: `${currentProduct.name} + ${userText}`,
-                price: (parseInt(currentProduct.price) + 10) + " EUR"
+                price: (parseInt(currentProduct.price) + 10) + " EUR",
+                description: currentProduct.description ? `${currentProduct.description} + ${userText}` : userText
             };
             addMessage(`Produs generat: ${generatedProduct.name} - ${generatedProduct.price}`, "ai", true);
+            descriptionDiv.innerHTML = `<p><b>Descriere:</b> ${generatedProduct.description}</p>`;
         }, 500);
     };
 </script>
+
 
 </body>
 </html>
