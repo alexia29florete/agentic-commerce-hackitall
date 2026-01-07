@@ -3,3 +3,9 @@
 
 # All pycache files
 __pycache__
+
+# Location result
+my_location.json
+
+# API Keys
+.env

@@ -1,13 +1,13 @@
 MOCK_SHOPS = [
     {
-        "name": "Bucharest Cotton Wear",
+        "name": "Bucharest Schick Wear",
         "category": "clothing",
         "item": "t-shirt",
         "materials": ["cotton"],
         "colors": ["orange", "red", "blue"],
         "price": 110,
         "locality": "Bucharest",
-        "url": "https://bucharestcottonwear.ro/tshirt1",
+        "url": "https://schickwear.ro/tshirt1",
         "brand": "CottonWear",
         "description": "T-shirt 100% bumbac, produs local.",
         "rating": 4.7,
@@ -17,19 +17,19 @@ MOCK_SHOPS = [
         "cui": "12345678"
     },
     {
-        "name": "Polyester Brothers",
+        "name": "Haine de la Marius",
         "category": "clothing",
         "item": "t-shirt",
         "materials": ["polyester"],
         "colors": ["orange", "red", "blue"],
         "price": 80,
         "locality": "Bucharest",
-        "url": "https://polyesterbrothers.ro/tshirt1",
+        "url": "https://hainedelamarius.ro/tshirt1",
         "brand": "PolyBro",
         "description": "T-shirt poliester ușor și durabil.",
         "rating": 4.2,
         "stock": 66,
-        "employees": 112,       # over 100 as requested
+        "employees": 12,
         "turnover": 1200000,
         "cui": "87654321"
     },
